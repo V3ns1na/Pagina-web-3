@@ -1,0 +1,497 @@
+Copia este código en un archivo llamado `index.html`. Antes de recibir pedidos, reemplaza `569XXXXXXXX` por el WhatsApp real del dueño y actualiza los enlaces de Instagram y Facebook.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f2df">
+  <meta name="description" content="PoliSushi: sushi para compartir, recién preparado y con despacho en tu zona. Pide por WhatsApp.">
+  <title>PoliSushi — Sushi para compartir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f7f2df;
+      --paper-deep: #efe7ca;
+      --ink: #1c3024;
+      --green: #1e6139;
+      --green-deep: #17492d;
+      --red: #d74732;
+      --orange: #f1a33d;
+      --cream: #fffaf0;
+      --muted: #6d7567;
+      --line: rgba(28, 48, 36, .15);
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+      --shadow: 0 20px 55px rgba(41, 55, 36, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body.cart-open { overflow: hidden; }
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+    .topline { background: var(--green); color: #f9f1d9; font-size: 12px; letter-spacing: .08em; text-align: center; padding: 9px 16px; }
+    .topline strong { color: #ffd184; font-weight: 700; }
+    .site-header { position: sticky; z-index: 20; top: 0; background: rgba(247,242,223,.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .nav { min-height: 78px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--serif); font-weight: 900; font-size: 25px; letter-spacing: -.06em; }
+    .brand-mark { width: 35px; height: 35px; border-radius: 50%; background: var(--red); display: grid; place-items: center; color: var(--cream); font: 800 13px var(--sans); transform: rotate(-8deg); }
+    .brand em { color: var(--red); font-style: normal; }
+    .nav-links { display: flex; align-items: center; gap: 31px; }
+    .nav-links a { font-size: 13px; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+    .nav-links a:hover { color: var(--red); }
+    .cart-trigger { border: 0; color: var(--cream); background: var(--red); padding: 12px 17px; border-radius: 999px; display: inline-flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 800; transition: transform .2s, background .2s; }
+    .cart-trigger:hover { background: #bd3828; transform: translateY(-2px); }
+    .cart-count { display: grid; place-items: center; min-width: 20px; height: 20px; border-radius: 50%; padding: 0 5px; background: var(--cream); color: var(--red); font-size: 11px; }
+    .hero { padding: 64px 0 70px; position: relative; overflow: hidden; }
+    .hero:before { content: ""; position: absolute; width: 540px; height: 540px; right: -160px; top: -145px; border-radius: 50%; background: var(--orange); opacity: .22; }
+    .hero-grid { position: relative; display: grid; grid-template-columns: .91fr 1.09fr; align-items: center; gap: 56px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--green); text-transform: uppercase; letter-spacing: .14em; font-weight: 800; font-size: 11px; }
+    .eyebrow:before { content: ""; width: 25px; height: 2px; background: var(--red); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font: 900 clamp(3.5rem, 7vw, 6.5rem)/.91 var(--serif); letter-spacing: -.075em; max-width: 580px; margin: 20px 0; }
+    h1 span { color: var(--red); font-style: italic; }
+    .hero-copy > p { max-width: 440px; color: #586253; font-size: 16px; line-height: 1.7; margin-bottom: 27px; }
+    .hero-actions { display: flex; align-items: center; gap: 23px; flex-wrap: wrap; }
+    .button-primary { background: var(--green); color: var(--cream); text-decoration: none; display: inline-flex; align-items: center; gap: 15px; border-radius: 999px; padding: 16px 22px; font-size: 13px; font-weight: 800; transition: transform .2s, background .2s; }
+    .button-primary:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .button-primary span { font-size: 18px; line-height: 0; }
+    .hero-note { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--muted); }
+    .hero-note strong { color: var(--ink); font-size: 13px; }
+    .hero-visual { position: relative; min-height: 480px; }
+    .hero-image { position: absolute; inset: 0 22px 22px 0; overflow: hidden; border-radius: 46% 46% 21px 21px; background: #d76535; box-shadow: var(--shadow); }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-image:after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(25,40,29,.48)); }
+    .hero-sticker { position: absolute; top: 23px; right: 0; width: 118px; height: 118px; border-radius: 50%; background: var(--red); color: var(--cream); display: grid; place-content: center; text-align: center; transform: rotate(9deg); box-shadow: 0 9px 25px rgba(96,43,27,.2); }
+    .hero-sticker b { font: 800 28px/.95 var(--serif); }
+    .hero-sticker small { font-size: 9px; line-height: 1.2; text-transform: uppercase; letter-spacing: .12em; margin-top: 5px; }
+    .image-caption { position: absolute; z-index: 1; bottom: 44px; left: 30px; color: white; }
+    .image-caption b { display: block; font: 700 22px var(--serif); }
+    .image-caption span { font-size: 11px; opacity: .88; }
+    .sushi-orbit { position: absolute; width: 93px; height: 93px; bottom: 0; left: -19px; border: 1px solid var(--green); border-radius: 50%; display: grid; place-items: center; color: var(--green); font: italic 700 12px var(--serif); background: var(--paper); transform: rotate(-14deg); }
+    .ticker { overflow: hidden; background: var(--orange); padding: 13px 0; transform: rotate(-1.2deg) scale(1.02); }
+    .ticker-track { display: flex; width: max-content; animation: ticker 34s linear infinite; }
+    .ticker-item { font: 800 14px var(--sans); text-transform: uppercase; letter-spacing: .13em; padding: 0 28px; white-space: nowrap; }
+    .ticker-item span { color: var(--red); padding-left: 30px; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    .menu-section { padding: 115px 0 105px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 40px; }
+    .section-head h2 { font: 800 clamp(2.5rem, 5vw, 4rem)/.98 var(--serif); letter-spacing: -.06em; margin: 13px 0 0; }
+    .section-head h2 span { color: var(--red); font-style: italic; }
+    .section-head > p { max-width: 285px; color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 5px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 17px; }
+    .product-card { grid-column: span 2; background: var(--cream); border-radius: 17px; overflow: hidden; box-shadow: 0 8px 25px rgba(34,48,30,.05); transition: transform .3s, box-shadow .3s; }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .product-card:nth-child(4) { grid-column: 2 / span 2; }
+    .product-card:nth-child(5) { grid-column: 4 / span 2; }
+    .product-photo { height: 213px; position: relative; overflow: hidden; background: var(--paper-deep); }
+    .product-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .product-card:hover .product-photo img { transform: scale(1.045); }
+    .piece-tag { position: absolute; top: 13px; left: 13px; padding: 7px 11px; border-radius: 999px; color: var(--cream); background: var(--green); font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+    .best-tag { background: var(--red); }
+    .product-info { padding: 18px 19px 19px; }
+    .product-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .product-title h3 { font: 700 21px var(--serif); letter-spacing: -.03em; margin: 0; }
+    .price { font: 800 18px var(--sans); color: var(--green); white-space: nowrap; }
+    .product-info p { color: var(--muted); font-size: 11px; line-height: 1.5; min-height: 34px; margin-bottom: 17px; }
+    .add-button { width: 100%; border: 1px solid var(--green); background: transparent; color: var(--green); border-radius: 8px; padding: 11px 13px; font-weight: 800; font-size: 12px; display: flex; justify-content: space-between; align-items: center; transition: color .2s, background .2s; }
+    .add-button:hover { color: var(--cream); background: var(--green); }
+    .add-button span { font-size: 17px; }
+    .promise { background: var(--green); color: var(--cream); padding: 70px 0; position: relative; overflow: hidden; }
+    .promise:after { content: ""; position: absolute; right: -70px; top: -120px; width: 380px; height: 380px; border: 1px solid rgba(255,250,240,.17); border-radius: 50%; box-shadow: 0 0 0 32px rgba(255,250,240,.035), 0 0 0 65px rgba(255,250,240,.025); }
+    .promise-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 50px; }
+    .promise h2 { font: 800 clamp(2.3rem, 5vw, 4rem)/1 var(--serif); letter-spacing: -.06em; max-width: 540px; margin: 15px 0 0; }
+    .promise h2 em { color: #f6ae52; }
+    .promise-copy { max-width: 355px; color: rgba(255,250,240,.75); font-size: 13px; line-height: 1.8; }
+    .promise-copy strong { color: #ffcf83; display: block; margin-bottom: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .11em; }
+    .how-section { padding: 100px 0; }
+    .how-grid { display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 60px; }
+    .how-title h2 { font: 800 clamp(2.5rem, 5vw, 4rem)/.97 var(--serif); letter-spacing: -.06em; margin: 16px 0; }
+    .how-title h2 span { color: var(--red); }
+    .how-title p { color: var(--muted); font-size: 13px; line-height: 1.7; max-width: 300px; }
+    .steps { border-top: 1px solid var(--line); }
+    .step { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .step-number { font: italic 700 22px var(--serif); color: var(--red); }
+    .step b { display: block; font: 700 17px var(--serif); margin-bottom: 4px; }
+    .step p { color: var(--muted); font-size: 12px; margin: 0; }
+    .step-mark { color: var(--green); font-size: 19px; }
+    .contact-section { background: #f0e8ce; padding: 76px 0; }
+    .contact-inner { display: flex; justify-content: space-between; gap: 40px; align-items: center; }
+    .contact-inner h2 { font: 800 clamp(2.4rem, 4vw, 3.5rem)/.98 var(--serif); letter-spacing: -.06em; margin: 12px 0 9px; }
+    .contact-inner p { color: var(--muted); margin: 0; font-size: 13px; }
+    .socials { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+    .socials a { border: 1px solid rgba(28,48,36,.24); text-decoration: none; padding: 12px 16px; border-radius: 999px; font-size: 12px; font-weight: 800; transition: background .2s, color .2s; }
+    .socials a:hover { color: var(--cream); background: var(--green); }
+    .placeholder-note { font-size: 10px !important; color: #94633a !important; margin-top: 11px !important; }
+    footer { background: var(--ink); color: #f8f0dc; padding: 25px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 10px; color: rgba(248,240,220,.68); }
+    .footer-inner .brand { color: #f8f0dc; font-size: 19px; }
+    .footer-inner .brand-mark { width: 28px; height: 28px; font-size: 10px; }
+    .overlay { position: fixed; z-index: 50; inset: 0; background: rgba(19,34,25,.48); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+    .overlay.open { opacity: 1; visibility: visible; }
+    .cart-panel { position: fixed; z-index: 51; top: 0; right: 0; height: 100dvh; width: min(470px, 100%); background: var(--cream); box-shadow: -20px 0 60px rgba(20,34,24,.17); transform: translateX(102%); transition: transform .32s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; }
+    .cart-panel.open { transform: translateX(0); }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 25px; border-bottom: 1px solid var(--line); }
+    .cart-head h2 { font: 800 27px var(--serif); margin: 0; letter-spacing: -.04em; }
+    .close-cart { width: 38px; height: 38px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 50%; font-size: 20px; }
+    .cart-content { flex: 1; overflow: auto; padding: 20px 25px; }
+    .cart-empty { min-height: 260px; display: grid; place-content: center; text-align: center; color: var(--muted); }
+    .cart-empty strong { display: block; font: 700 21px var(--serif); color: var(--ink); margin-bottom: 7px; }
+    .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .cart-item h3 { font: 700 17px var(--serif); margin: 0 0 5px; }
+    .cart-item .line-price { font-size: 12px; font-weight: 800; color: var(--green); }
+    .item-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .quantity-control { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 8px; }
+    .quantity-control button, .remove-item { border: 0; background: transparent; color: var(--green); font-weight: 800; padding: 2px 4px; }
+    .quantity-control span { font-size: 12px; min-width: 12px; text-align: center; }
+    .remove-item { color: var(--red); text-decoration: underline; font-size: 11px; }
+    .cart-bottom { padding: 18px 25px 22px; border-top: 1px solid var(--line); }
+    .subtotal { display: flex; align-items: center; justify-content: space-between; font-weight: 700; margin-bottom: 4px; }
+    .cart-total { display: flex; align-items: center; justify-content: space-between; font: 800 17px var(--sans); margin-top: 10px; }
+    .total-note { color: var(--muted); font-size: 10px; margin-bottom: 16px; }
+    .checkout-button { width: 100%; border: 0; border-radius: 9px; padding: 15px; background: var(--red); color: var(--cream); font-weight: 800; transition: background .2s; }
+    .checkout-button:hover { background: #b93628; }
+    .checkout-button:disabled { opacity: .45; cursor: not-allowed; }
+    .checkout-dialog { width: min(510px, calc(100% - 30px)); max-height: min(92dvh, 760px); overflow: auto; border: 0; border-radius: 18px; padding: 0; background: var(--cream); color: var(--ink); box-shadow: var(--shadow); }
+    .checkout-dialog::backdrop { background: rgba(19,34,25,.58); backdrop-filter: blur(3px); }
+    .form-inner { padding: 27px; }
+    .form-header { display: flex; justify-content: space-between; gap: 15px; align-items: start; margin-bottom: 21px; }
+    .form-header h2 { font: 800 29px var(--serif); margin: 5px 0 0; letter-spacing: -.05em; }
+    .form-header p { font-size: 11px; color: var(--muted); margin: 6px 0 0; }
+    .dialog-close { border: 1px solid var(--line); border-radius: 50%; width: 35px; height: 35px; background: transparent; font-size: 19px; }
+    .field { margin-bottom: 15px; }
+    .field label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 6px; }
+    .field input, .field select { width: 100%; background: #fffdf6; border: 1px solid rgba(28,48,36,.22); border-radius: 8px; padding: 12px 13px; color: var(--ink); font-size: 13px; }
+    .field input:focus, .field select:focus { border-color: var(--green); outline: 2px solid rgba(30,97,57,.13); }
+    .form-summary { padding: 13px; border-radius: 8px; background: #f2ead5; font-size: 11px; color: #586253; line-height: 1.55; margin: 17px 0; }
+    .send-order { display: block; text-align: center; width: 100%; border: 0; border-radius: 8px; padding: 15px; background: var(--green); color: var(--cream); text-decoration: none; font-weight: 800; font-size: 13px; }
+    .send-order:hover { background: var(--green-deep); }
+    .form-error { display: none; color: var(--red); font-size: 11px; margin: 0 0 10px; }
+    .form-error.visible { display: block; }
+    .toast { position: fixed; z-index: 80; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: var(--ink); color: var(--cream); padding: 12px 18px; border-radius: 999px; font-size: 12px; transition: transform .25s, opacity .25s; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .reveal { animation: rise .65s both; }
+    .reveal.delay { animation-delay: .12s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    @media (max-width: 780px) {
+      .wrap { width: min(100% - 34px, 580px); }
+      .nav { min-height: 68px; }
+      .nav-links { display: none; }
+      .hero { padding: 45px 0 48px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 31px; }
+      .hero-copy { order: 0; }
+      h1 { font-size: clamp(3.5rem, 16vw, 5.7rem); }
+      .hero-copy > p { font-size: 14px; }
+      .hero-visual { min-height: 350px; }
+      .hero-image { inset: 0 20px 18px 0; }
+      .hero-sticker { width: 95px; height: 95px; }
+      .hero-sticker b { font-size: 23px; }
+      .menu-section { padding: 82px 0; }
+      .section-head { align-items: start; flex-direction: column; gap: 13px; margin-bottom: 28px; }
+      .section-head > p { margin: 0; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-card, .product-card:nth-child(4), .product-card:nth-child(5) { grid-column: auto; }
+      .product-card:last-child { grid-column: 1 / -1; }
+      .product-photo { height: 160px; }
+      .product-info { padding: 14px; }
+      .product-title { display: block; }
+      .product-title h3 { font-size: 18px; margin-bottom: 4px; }
+      .price { font-size: 16px; }
+      .product-info p { min-height: 48px; font-size: 10px; }
+      .promise { padding: 56px 0; }
+      .promise-inner { display: block; }
+      .promise-copy { margin-top: 22px; }
+      .how-section { padding: 75px 0; }
+      .how-grid { grid-template-columns: 1fr; gap: 26px; }
+      .contact-section { padding: 58px 0; }
+      .contact-inner { align-items: start; flex-direction: column; gap: 23px; }
+      .socials { justify-content: flex-start; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 390px) {
+      .brand { font-size: 22px; }
+      .cart-trigger { padding: 10px 12px; }
+      .product-photo { height: 137px; }
+      .piece-tag { font-size: 9px; top: 8px; left: 8px; }
+      .product-info { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">HECHO AL MOMENTO <strong>·</strong> RETIRO Y DESPACHO EN TU ZONA</div>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="PoliSushi, inicio"><span class="brand-mark">PS</span>poli<em>sushi</em></a>
+      <div class="nav-links">
+        <a href="#promos">Promociones</a>
+        <a href="#nosotros">Nuestra cocina</a>
+        <a href="#contacto">Encuéntranos</a>
+      </div>
+      <button class="cart-trigger" type="button" id="open-cart" aria-label="Abrir carrito, 0 productos">Tu pedido <span class="cart-count" id="cart-count">0</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-grid wrap">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">Sushi para compartir</span>
+          <h1>Hoy se come <span>rico.</span></h1>
+          <p>Rolls fresquitos, buenos ingredientes y ese antojo que no espera. Elige tu promo favorita y nos ponemos manos a la obra.</p>
+          <div class="hero-actions">
+            <a class="button-primary" href="#promos">Ver promociones <span aria-hidden="true">↘</span></a>
+            <div class="hero-note"><strong>Preparado al pedir</strong><span>Tu sushi, recién hecho.</span></div>
+          </div>
+        </div>
+        <div class="hero-visual reveal delay">
+          <div class="hero-image">
+            <img src="https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Tabla de sushi variado con rolls frescos y vegetales" fetchpriority="high">
+            <div class="image-caption"><b>Un antojo que se comparte</b><span>Preparado con cariño, siempre.</span></div>
+          </div>
+          <div class="hero-sticker" aria-label="Fresco y preparado al momento"><b>fresco</b><small>hecho al<br>momento</small></div>
+          <div class="sushi-orbit" aria-hidden="true">rico, rico</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-item">Una pieza más <span>·</span> Comparte el antojo <span>·</span> Sushi recién hecho <span>·</span> Hoy se come rico <span>·</span></div>
+        <div class="ticker-item">Una pieza más <span>·</span> Comparte el antojo <span>·</span> Sushi recién hecho <span>·</span> Hoy se come rico <span>·</span></div>
+      </div>
+    </div>
+
+    <section class="menu-section" id="promos">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="eyebrow">La carta de la casa</span><h2>Elige tu <span>antojo.</span></h2></div>
+          <p>Cinco tamaños para el hambre de hoy. ¿Solo para ti o para toda la mesa?</p>
+        </div>
+        <div class="menu-grid" id="product-grid" aria-label="Promociones de sushi">
+          <article class="product-card">
+            <div class="product-photo"><img src="https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Selección de rolls de sushi en una tabla" loading="lazy"><span class="piece-tag">10 piezas</span></div>
+            <div class="product-info"><div class="product-title"><h3>Un gustito</h3><span class="price">$9.990</span></div><p>La pausa perfecta para sacarte el antojo.</p><button class="add-button" data-product="10" type="button">Sumar al pedido <span aria-hidden="true">+</span></button></div>
+          </article>
+          <article class="product-card">
+            <div class="product-photo"><img src="https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Rolls de sushi frescos con salmón y palta" loading="lazy"><span class="piece-tag">20 piezas</span></div>
+            <div class="product-info"><div class="product-title"><h3>Para dos</h3><span class="price">$16.990</span></div><p>Una cita con tus rolls favoritos.</p><button class="add-button" data-product="20" type="button">Sumar al pedido <span aria-hidden="true">+</span></button></div>
+          </article>
+          <article class="product-card">
+            <div class="product-photo"><img src="https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Sushi variado servido para compartir" loading="lazy"><span class="piece-tag best-tag">Favorita</span></div>
+            <div class="product-info"><div class="product-title"><h3>Mesa feliz</h3><span class="price">$20.000</span></div><p>30 piezas para poner al centro y compartir.</p><button class="add-button" data-product="30" type="button">Sumar al pedido <span aria-hidden="true">+</span></button></div>
+          </article>
+          <article class="product-card">
+            <div class="product-photo"><img src="https://images.pexels.com/photos/8951563/pexels-photo-8951563.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Bandeja generosa de sushi recién preparado" loading="lazy"><span class="piece-tag">40 piezas</span></div>
+            <div class="product-info"><div class="product-title"><h3>Juntémonos</h3><span class="price">$27.990</span></div><p>Para una buena conversa y una ronda más.</p><button class="add-button" data-product="40" type="button">Sumar al pedido <span aria-hidden="true">+</span></button></div>
+          </article>
+          <article class="product-card">
+            <div class="product-photo"><img src="https://images.pexels.com/photos/8951565/pexels-photo-8951565.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Gran tabla de rolls de sushi para compartir" loading="lazy"><span class="piece-tag">50 piezas</span></div>
+            <div class="product-info"><div class="product-title"><h3>La gran juntada</h3><span class="price">$32.000</span></div><p>La mesa completa queda feliz con esta.</p><button class="add-button" data-product="50" type="button">Sumar al pedido <span aria-hidden="true">+</span></button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="promise" id="nosotros">
+      <div class="promise-inner wrap">
+        <div><span class="eyebrow" style="color:#ffcf83">Un roll a la vez</span><h2>Lo bueno se nota <em>al primer bocado.</em></h2></div>
+        <div class="promise-copy"><strong>De nuestra cocina a tu mesa</strong>Armamos cada pedido cuando lo haces, cuidando cada detalle para que llegue rico y recién preparado. Tú pones la compañía; nosotros, el sushi.</div>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div class="how-grid wrap">
+        <div class="how-title"><span class="eyebrow">Así de fácil</span><h2>Tu pedido, <span>en tres pasos.</span></h2><p>Sin vueltas: elige, cuéntanos dónde y coordinamos por WhatsApp.</p></div>
+        <div class="steps">
+          <div class="step"><span class="step-number">01</span><div><b>Elige tu promo</b><p>Arma el pedido con las piezas que más te tienten.</p></div><span class="step-mark" aria-hidden="true">↗</span></div>
+          <div class="step"><span class="step-number">02</span><div><b>Completa tus datos</b><p>Retiro o despacho: tú decides cómo disfrutarlo.</p></div><span class="step-mark" aria-hidden="true">↗</span></div>
+          <div class="step"><span class="step-number">03</span><div><b>Confirma por WhatsApp</b><p>Te contactamos para coordinar el pedido. No se realiza ningún cobro en esta web.</p></div><span class="step-mark" aria-hidden="true">↗</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contacto">
+      <div class="contact-inner wrap">
+        <div><span class="eyebrow">Hablemos de sushi</span><h2>¿Se te antojó?</h2><p>Escríbenos, aquí estamos para ayudarte con tu pedido.</p><p class="placeholder-note">Contacto del dueño: +56 9 XXXX XXXX — reemplazar por el número real.</p></div>
+        <div class="socials" aria-label="Redes sociales">
+          <a href="https://www.instagram.com/REEMPLAZAR_USUARIO" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/REEMPLAZAR_PAGINA" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://wa.me/569XXXXXXXX" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="footer-inner wrap"><a class="brand" href="#inicio"><span class="brand-mark">PS</span>poli<em style="color:#f06b50">sushi</em></a><span>© PoliSushi · Un antojo bien acompañado.</span><span>Chile · Contacto editable antes de publicar</span></div></footer>
+
+  <div class="overlay" id="overlay" tabindex="-1" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" aria-label="Tu pedido" aria-hidden="true">
+    <div class="cart-head"><h2>Tu pedido</h2><button class="close-cart" id="close-cart" type="button" aria-label="Cerrar carrito">×</button></div>
+    <div class="cart-content" id="cart-content"></div>
+    <div class="cart-bottom"><div class="subtotal"><span>Subtotal</span><span id="cart-subtotal">$0</span></div><div class="cart-total"><span>Total productos</span><span id="cart-total">$0</span></div><div class="total-note">El despacho, si aplica, se suma y confirma por WhatsApp. Sin cobro en esta web.</div><button class="checkout-button" id="checkout-button" type="button" disabled>Continuar con el pedido</button></div>
+  </aside>
+  <dialog class="checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-title">
+    <form class="form-inner" id="checkout-form" novalidate>
+      <div class="form-header"><div><span class="eyebrow">Último paso</span><h2 id="checkout-title">¿Dónde lo llevamos?</h2><p>Envía tu pedido a PoliSushi por WhatsApp.</p></div><button class="dialog-close" id="close-dialog" type="button" aria-label="Cerrar formulario">×</button></div>
+      <div class="field"><label for="customer-name">Tu nombre</label><input id="customer-name" name="name" autocomplete="name" required maxlength="80" placeholder="¿Cómo te llamas?"></div>
+      <div class="field"><label for="customer-phone">Tu teléfono</label><input id="customer-phone" name="phone" type="tel" autocomplete="tel" required maxlength="24" placeholder="+56 9 1234 5678"></div>
+      <div class="field"><label for="fulfillment">¿Cómo recibes tu pedido?</label><select id="fulfillment" name="fulfillment" required><option value="Retiro">Retiro</option><option value="Despacho">Despacho</option></select></div>
+      <div class="field" id="address-field" hidden><label for="customer-address">Dirección de despacho</label><input id="customer-address" name="address" autocomplete="street-address" maxlength="160" placeholder="Calle, número y comuna"></div>
+      <div class="form-summary" id="form-summary"></div>
+      <p class="form-error" id="form-error" role="alert">Revisa tus datos para continuar.</p>
+      <button class="send-order" type="submit">Enviar pedido por WhatsApp</button>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      "use strict";
+      // EDITAR antes de publicar: número de WhatsApp del dueño, solo dígitos con código de país.
+      const OWNER_PHONE = "569XXXXXXXX";
+      const products = {
+        "10": { name: "Un gustito · 10 piezas", price: 9990 },
+        "20": { name: "Para dos · 20 piezas", price: 16990 },
+        "30": { name: "Mesa feliz · 30 piezas", price: 20000 },
+        "40": { name: "Juntémonos · 40 piezas", price: 27990 },
+        "50": { name: "La gran juntada · 50 piezas", price: 32000 }
+      };
+      const cart = new Map();
+      const panel = document.getElementById("cart-panel");
+      const overlay = document.getElementById("overlay");
+      const cartContent = document.getElementById("cart-content");
+      const checkoutButton = document.getElementById("checkout-button");
+      const dialog = document.getElementById("checkout-dialog");
+      const form = document.getElementById("checkout-form");
+      const money = value => "$" + value.toLocaleString("es-CL");
+      const totalQuantity = () => [...cart.values()].reduce((sum, qty) => sum + qty, 0);
+      const totalPrice = () => [...cart.entries()].reduce((sum, [id, qty]) => sum + products[id].price * qty, 0);
+      let toastTimer;
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2100);
+      }
+      function renderCart() {
+        const count = totalQuantity();
+        document.getElementById("cart-count").textContent = count;
+        document.getElementById("open-cart").setAttribute("aria-label", `Abrir carrito, ${count} ${count === 1 ? "producto" : "productos"}`);
+        document.getElementById("cart-subtotal").textContent = money(totalPrice());
+        document.getElementById("cart-total").textContent = money(totalPrice());
+        checkoutButton.disabled = count === 0;
+        if (!count) {
+          cartContent.innerHTML = '<div class="cart-empty"><div><strong>Tu carrito está esperando.</strong>Agrega una promo para empezar.</div></div>';
+          return;
+        }
+        cartContent.innerHTML = [...cart.entries()].map(([id, qty]) => {
+          const product = products[id];
+          return `<div class="cart-item"><div><h3>${product.name}</h3><span class="line-price">${money(product.price * qty)}</span><div class="item-controls"><div class="quantity-control" aria-label="Cantidad de ${product.name}"><button type="button" data-action="decrease" data-id="${id}" aria-label="Quitar una unidad">−</button><span>${qty}</span><button type="button" data-action="increase" data-id="${id}" aria-label="Agregar una unidad">+</button></div><button type="button" class="remove-item" data-action="remove" data-id="${id}">Quitar</button></div></div></div>`;
+        }).join("");
+      }
+      function setCartOpen(open) {
+        panel.classList.toggle("open", open);
+        overlay.classList.toggle("open", open);
+        panel.setAttribute("aria-hidden", String(!open));
+        document.body.classList.toggle("cart-open", open);
+        if (open) document.getElementById("close-cart").focus();
+        else document.getElementById("open-cart").focus();
+      }
+      document.querySelectorAll(".add-button").forEach(button => button.addEventListener("click", () => {
+        const id = button.dataset.product;
+        cart.set(id, (cart.get(id) || 0) + 1);
+        renderCart();
+        showToast(`${products[id].name} agregado al pedido`);
+      }));
+      document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
+      document.getElementById("close-cart").addEventListener("click", () => setCartOpen(false));
+      overlay.addEventListener("click", () => setCartOpen(false));
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && panel.classList.contains("open")) setCartOpen(false);
+      });
+      cartContent.addEventListener("click", event => {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
+        const { id, action } = button.dataset;
+        const quantity = cart.get(id) || 0;
+        if (action === "increase") cart.set(id, quantity + 1);
+        if (action === "decrease") quantity <= 1 ? cart.delete(id) : cart.set(id, quantity - 1);
+        if (action === "remove") cart.delete(id);
+        renderCart();
+      });
+      checkoutButton.addEventListener("click", () => {
+        if (cart.size === 0) return;
+        setCartOpen(false);
+        const summary = [...cart.entries()].map(([id, qty]) => `${qty} × ${products[id].name} — ${money(products[id].price * qty)}`).join("\n");
+        document.getElementById("form-summary").textContent = `Tu pedido:\n${summary}\nSubtotal: ${money(totalPrice())}. El despacho se confirma por WhatsApp.`;
+        dialog.showModal();
+        document.getElementById("customer-name").focus();
+      });
+      document.getElementById("close-dialog").addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", event => {
+        if (event.target === dialog) dialog.close();
+      });
+      const fulfillment = document.getElementById("fulfillment");
+      const addressField = document.getElementById("address-field");
+      const addressInput = document.getElementById("customer-address");
+      fulfillment.addEventListener("change", () => {
+        const isDelivery = fulfillment.value === "Despacho";
+        addressField.hidden = !isDelivery;
+        addressInput.required = isDelivery;
+        if (!isDelivery) addressInput.value = "";
+      });
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const name = document.getElementById("customer-name").value.trim();
+        const phone = document.getElementById("customer-phone").value.trim();
+        const address = addressInput.value.trim();
+        const error = document.getElementById("form-error");
+        if (!name || !phone || (fulfillment.value === "Despacho" && !address)) {
+          error.classList.add("visible");
+          form.reportValidity();
+          return;
+        }
+        error.classList.remove("visible");
+        const lines = [...cart.entries()].map(([id, qty]) => `• ${qty} × ${products[id].name}: ${money(products[id].price * qty)}`);
+        const order = [
+          "Hola PoliSushi, quiero hacer este pedido:",
+          "",
+          ...lines,
+          "",
+          `Subtotal: ${money(totalPrice())}`,
+          "Despacho: por confirmar",
+          `Total a confirmar: ${money(totalPrice())} + despacho (si aplica)`,
+          "",
+          `Nombre: ${name}`,
+          `Teléfono: ${phone}`,
+          `Entrega: ${fulfillment.value}`,
+          ...(fulfillment.value === "Despacho" ? [`Dirección: ${address}`] : []),
+          "",
+          "Entiendo que confirmaré el pedido y el valor final por este chat."
+        ].join("\n");
+        const digits = OWNER_PHONE.replace(/\D/g, "");
+        if (!/^\d{10,15}$/.test(digits) || digits.includes("X")) {
+          error.textContent = "El WhatsApp del dueño todavía es un placeholder. Reemplaza OWNER_PHONE en el script antes de recibir pedidos.";
+          error.classList.add("visible");
+          return;
+        }
+        const waUrl = `https://wa.me/${digits}?text=${encodeURIComponent(order)}`;
+        window.open(waUrl, "_blank", "noopener,noreferrer");
+        dialog.close();
+        showToast("Abriendo WhatsApp para enviar tu pedido");
+      });
+      renderCart();
+    })();
+  </script>
+</body>
+</html>
+```
